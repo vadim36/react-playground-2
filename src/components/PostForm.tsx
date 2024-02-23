@@ -1,4 +1,4 @@
-import {FC, useState, MouseEvent, ChangeEvent } from 'react'
+import {FC, MouseEvent, ChangeEvent, useState } from 'react'
 
 import { Button } from '../UI/Button'
 import { Input } from '../UI/Input'
@@ -8,8 +8,13 @@ interface PostFormProps {
   create: (newPost: IPost) => void
 }
 
+interface IPostFormFields {
+  title: string,
+  body: string
+}
+
 export const PostForm:FC<PostFormProps> = ({create}) => {
-  const [post, setPost] = useState({
+  const [post, setPost] = useState<IPostFormFields>({
     title: '',
     body: ''
   })
