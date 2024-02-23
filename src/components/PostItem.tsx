@@ -5,10 +5,11 @@ import { ButtonVariants } from '../utils/enums'
 
 interface PostItemProps {
   postData: IPost,
-  number: number
+  number: number,
+  remove: (deletingPost: IPost) => void
 }
 
-export const PostItem:FC<PostItemProps> = ({postData, number}) => {
+export const PostItem:FC<PostItemProps> = ({postData, number, remove}) => {
   return (
     <li className="border-4 border-sky-500 w-4/5 p-2">
       <div>
@@ -19,7 +20,7 @@ export const PostItem:FC<PostItemProps> = ({postData, number}) => {
         <Button variant={ButtonVariants.primary}>
           Прокомментировать
         </Button>
-        <Button variant={ButtonVariants.danger}>
+        <Button variant={ButtonVariants.danger} onClick={():void => remove(postData)}>
           Удалить
         </Button>
       </div>

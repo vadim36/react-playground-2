@@ -13,11 +13,16 @@ const App:FC = () => {
   function createPost(newPost: IPost):void {
     return setPosts([...posts, newPost])
   }
+
+  function removePost(deletingPost: IPost):void {
+    return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
+  }
   
   return (
     <>
       <PostForm create={createPost}/>
-      <PostList title='Посты' list={posts}/>
+      <PostList title={posts.length ? 'Посты' : 'Посты не найдены'} 
+        list={posts} remove={removePost}/>
     </>
   )
 }
