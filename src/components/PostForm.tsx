@@ -18,11 +18,28 @@ export const PostForm:FC<PostFormProps> = ({create}) => {
     title: '',
     body: ''
   })
+  const [validateError, setValidateError] = useState<string>('')
 
   function createPost(event: MouseEvent<HTMLButtonElement>):void {
     event.preventDefault()
+    if(!validateForm()) return
     create({id: Date.now(), ...post})
     return setPost({title: '', body: ''})
+  }
+
+  function validateForm():void | boolean {
+    if (post.title.length < 3 || post.body.length < 3) {
+      setValidateError('В одном из полей недостаточно символов')
+      return false
+    }
+
+    if(post.title.length > 15 || post.title.length > 50) {
+      setValidateError('В одном из полей слишком много символов')
+      return false
+    }
+
+    setValidateError('')
+    return true
   }
 
   return (
@@ -36,6 +53,8 @@ export const PostForm:FC<PostFormProps> = ({create}) => {
           return setPost({...post, body: event.target.value})
         }}/>
       <Button variant={ButtonVariants.primary} onClick={createPost}>Создать пост</Button>
+      {validateError &&
+        <strong className='text-red-500 text-2xl'>{validateError}</strong>}
     </form>
   )
 }
