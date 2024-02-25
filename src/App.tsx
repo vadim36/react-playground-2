@@ -1,13 +1,12 @@
 import { FC, useState } from 'react'
-
 import { PostList } from './components/PostList'
 import { PostForm } from './components/PostForm'
 
 const App:FC = () => {
   const [posts, setPosts] = useState<IPost[]>([
-    {id: 1,  title: 'Title 1', body: 'Description'},
-    {id: 2,  title: 'Title 2', body: 'Description'},
-    {id: 3,  title: 'Title 3', body: 'Description'},
+    {id: 1,  title: 'А', body: 'Ф'},
+    {id: 2,  title: 'Б', body: 'X'},
+    {id: 3,  title: 'В', body: 'Ц'},
   ])
 
   function createPost(newPost: IPost):void {
@@ -17,13 +16,13 @@ const App:FC = () => {
   function removePost(deletingPost: IPost):void {
     return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
   }
-  
+
   return (
-    <>
+    <div className='p-2'>
       <PostForm create={createPost}/>
-      <PostList title={posts.length ? 'Посты' : 'Посты не найдены'} 
+      <PostList title={posts.length ? 'Посты' : 'Посты не найдены!'} 
         list={posts} remove={removePost}/>
-    </>
+    </div>
   )
 }
 

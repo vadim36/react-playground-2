@@ -43,7 +43,7 @@ export const PostForm:FC<PostFormProps> = ({create}) => {
   }
 
   return (
-    <form className="gap-2 p-2 flex">
+    <form className="gap-2 flex has-[strong]:outline outline-2 outline-red-500 py-2">
       <Input type="text" placeholder="Название поста..." value={post.title} 
         onChange={(event: ChangeEvent<HTMLInputElement>):void => {
           return setPost({...post, title: event.target.value})
@@ -53,8 +53,12 @@ export const PostForm:FC<PostFormProps> = ({create}) => {
           return setPost({...post, body: event.target.value})
         }}/>
       <Button variant={ButtonVariants.primary} onClick={createPost}>Создать пост</Button>
-      {validateError &&
-        <strong className='text-red-500 text-2xl'>{validateError}</strong>}
+      {
+        validateError &&
+          <strong aria-label='Validation error' className='text-red-500 text-2xl'>
+            {validateError}
+          </strong>
+      }
     </form>
   )
 }
