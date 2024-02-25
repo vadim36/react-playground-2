@@ -3,3 +3,13 @@ interface IPost {
   title: string,
   body: string
 }
+
+interface SelectOption {
+  value: SortOptions,
+  body: string
+}
+
+interface IFilterQuery {
+  sortQuery: SortOptions,
+  searchQuery: string
+}

@@ -1,13 +1,20 @@
 import { FC, useState } from 'react'
 import { PostList } from './components/PostList'
 import { PostForm } from './components/PostForm'
+import { PostFilter } from './components/PostFilter'
+import { SortOptions } from './utils/enums'
 
 const App:FC = () => {
   const [posts, setPosts] = useState<IPost[]>([
-    {id: 1,  title: 'А', body: 'Ф'},
-    {id: 2,  title: 'Б', body: 'X'},
+    {id: 1,  title: 'Я', body: 'Ф'},
+    {id: 2,  title: 'У', body: 'X'},
     {id: 3,  title: 'В', body: 'Ц'},
   ])
+
+  const [filterQuery, setFilterQuery] = useState<IFilterQuery>({
+    sortQuery: SortOptions.default,
+    searchQuery: ''
+  }) 
 
   function createPost(newPost: IPost):void {
     return setPosts([...posts, newPost])
@@ -17,11 +24,27 @@ const App:FC = () => {
     return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
   }
 
+  function sortPosts():IPost[] {
+    const sortQuery: SortOptions.title | SortOptions.body = filterQuery.sortQuery
+    
+    return [...posts].sort((a: IPost, b: IPost):number => {
+      return a[sortQuery].localeCompare(b[sortQuery])
+    })
+  }
+
+  function getSortedPosts():IPost[] {
+    if (filterQuery.sortQuery === SortOptions.default) return posts
+    return sortPosts()
+  }
+
+  const sortedPosts = getSortedPosts()
+
   return (
     <div className='p-2'>
       <PostForm create={createPost}/>
+      <PostFilter filter={filterQuery} setFilter={setFilterQuery}/>
       <PostList title={posts.length ? 'Посты' : 'Посты не найдены!'} 
-        list={posts} remove={removePost}/>
+        list={sortedPosts} remove={removePost}/>
     </div>
   )
 }
