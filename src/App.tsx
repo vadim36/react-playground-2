@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { PostList } from './components/PostList'
 import { PostForm } from './components/PostForm'
 import { PostFilter } from './components/PostFilter'
@@ -32,19 +32,25 @@ const App:FC = () => {
     })
   }
 
-  function getSortedPosts():IPost[] {
+  const sortedPosts = useMemo(():IPost[] => {
     if (filterQuery.sortQuery === SortOptions.default) return posts
     return sortPosts()
-  }
+  }, [filterQuery.sortQuery, posts])
 
-  const sortedPosts = getSortedPosts()
+  const sortedSearchedPosts = useMemo(():IPost[] => {
+    return sortedPosts.filter((post: IPost):boolean => {
+      return post.title.toLowerCase().includes(
+        filterQuery.searchQuery.toLowerCase()
+      )
+    }) 
+  }, [filterQuery.searchQuery, posts])
 
   return (
     <div className='p-2'>
       <PostForm create={createPost}/>
       <PostFilter filter={filterQuery} setFilter={setFilterQuery}/>
-      <PostList title={posts.length ? 'Посты' : 'Посты не найдены!'} 
-        list={sortedPosts} remove={removePost}/>
+      <PostList title={sortedSearchedPosts.length ? 'Посты' : 'Посты не найдены!'} 
+        list={sortedSearchedPosts} remove={removePost}/>
     </div>
   )
 }

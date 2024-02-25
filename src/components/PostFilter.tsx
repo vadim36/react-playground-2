@@ -1,4 +1,4 @@
-import {Dispatch, FC, SetStateAction} from 'react'
+import {ChangeEvent, Dispatch, FC, SetStateAction} from 'react'
 import { Select } from '../UI/Select'
 import { SortOptions } from '../utils/enums'
 import { Input } from '../UI/Input'
@@ -15,7 +15,7 @@ export const PostFilter: FC<PostFilterProps> = ({filter, setFilter}) => {
   ]
 
   return (
-    <form>
+    <form className='flex gap-2'>
       <Select 
         value={filter.sortQuery}
         onChange={(sortQuery: SortOptions):void => {
@@ -26,7 +26,9 @@ export const PostFilter: FC<PostFilterProps> = ({filter, setFilter}) => {
       
       <Input
         value={filter.searchQuery}
-        onChange={()} 
+        onChange={(event: ChangeEvent<HTMLInputElement>):void => {
+          return setFilter({...filter, searchQuery: event.target.value})
+        }} 
         placeholder='Поиск...'
       />
     </form>
