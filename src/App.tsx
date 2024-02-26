@@ -3,6 +3,8 @@ import { PostList } from './components/PostList'
 import { PostForm } from './components/PostForm'
 import { PostFilter } from './components/PostFilter'
 import { SortOptions } from './utils/enums'
+import { Modal } from './UI/Modal'
+import { Button } from './UI/Button'
 
 const App:FC = () => {
   const [posts, setPosts] = useState<IPost[]>([
@@ -14,7 +16,9 @@ const App:FC = () => {
   const [filterQuery, setFilterQuery] = useState<IFilterQuery>({
     sortQuery: SortOptions.default,
     searchQuery: ''
-  }) 
+  })
+
+  const [formModalVisible, setFormModalVisible] = useState<boolean>(false)
 
   function createPost(newPost: IPost):void {
     return setPosts([...posts, newPost])
@@ -47,7 +51,14 @@ const App:FC = () => {
 
   return (
     <div className='p-2'>
-      <PostForm create={createPost}/>
+      <Button onClick={():void => {
+        return setFormModalVisible((prev:boolean):boolean => !prev)
+      }} className='mb-3'>
+        Создать пост
+      </Button>
+      <Modal visible={formModalVisible} setVisible={setFormModalVisible}>
+        <PostForm create={createPost}/>
+      </Modal>
       <PostFilter filter={filterQuery} setFilter={setFilterQuery}/>
       <PostList title={sortedSearchedPosts.length ? 'Посты' : 'Посты не найдены!'} 
         list={sortedSearchedPosts} remove={removePost}/>

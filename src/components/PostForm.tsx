@@ -2,7 +2,6 @@ import {FC, MouseEvent, ChangeEvent, useState } from 'react'
 
 import { Button } from '../UI/Button'
 import { Input } from '../UI/Input'
-import { ButtonVariants } from '../utils/enums'
 
 interface PostFormProps {
   create: (newPost: IPost) => void
@@ -52,7 +51,7 @@ export const PostForm:FC<PostFormProps> = ({create}) => {
         onChange={(event: ChangeEvent<HTMLInputElement>):void => {
           return setPost({...post, body: event.target.value})
         }}/>
-      <Button variant={ButtonVariants.primary} onClick={createPost}>Создать пост</Button>
+      <Button onClick={createPost}>Создать пост</Button>
       {
         validateError &&
           <strong aria-label='Validation error' className='text-red-500 text-2xl'>

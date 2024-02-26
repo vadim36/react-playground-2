@@ -17,7 +17,7 @@ export const PostItem:FC<PostItemProps> = ({postData, number, remove}) => {
         <p className="text-lg">{postData.body}</p>
       </div>
       <div aria-controls="*" className='flex gap-1'>
-        <Button variant={ButtonVariants.primary}>
+        <Button>
           Прокомментировать
         </Button>
         <Button variant={ButtonVariants.danger} onClick={():void => remove(postData)}>
