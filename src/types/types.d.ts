@@ -13,3 +13,11 @@ interface IFilterQuery {
   sortQuery: SortOptions,
   searchQuery: string
 }
+
+interface usePostProps {
+  posts: IPost[],
+  sortQuery: SortOptions,
+  searchQuery: string
+} 
+
+type useSortedPostsType = (posts: IPost[], sortQuery: SortOptions) => IPost[]

@@ -1,16 +1,17 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useState } from 'react'
 import { PostList } from './components/PostList'
 import { PostForm } from './components/PostForm'
 import { PostFilter } from './components/PostFilter'
 import { SortOptions } from './utils/enums'
 import { Modal } from './UI/Modal'
 import { Button } from './UI/Button'
+import { usePosts } from './hooks/usePosts'
 
 const App:FC = () => {
   const [posts, setPosts] = useState<IPost[]>([
-    {id: 1,  title: 'Я', body: 'Ф'},
-    {id: 2,  title: 'У', body: 'X'},
-    {id: 3,  title: 'В', body: 'Ц'},
+    {id: 1,  title: 'А', body: 'В'},
+    {id: 2,  title: 'Б', body: 'Б'},
+    {id: 3,  title: 'В', body: 'А'},
   ])
 
   const [filterQuery, setFilterQuery] = useState<IFilterQuery>({
@@ -28,26 +29,13 @@ const App:FC = () => {
     return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
   }
 
-  function sortPosts():IPost[] {
-    const sortQuery: SortOptions.title | SortOptions.body = filterQuery.sortQuery
-    
-    return [...posts].sort((a: IPost, b: IPost):number => {
-      return a[sortQuery].localeCompare(b[sortQuery])
-    })
+  const postsConfig:usePostProps = {
+    posts,
+    sortQuery: filterQuery.sortQuery,
+    searchQuery: filterQuery.searchQuery
   }
 
-  const sortedPosts = useMemo(():IPost[] => {
-    if (filterQuery.sortQuery === SortOptions.default) return posts
-    return sortPosts()
-  }, [filterQuery.sortQuery, posts])
-
-  const sortedSearchedPosts = useMemo(():IPost[] => {
-    return sortedPosts.filter((post: IPost):boolean => {
-      return post.title.toLowerCase().includes(
-        filterQuery.searchQuery.toLowerCase()
-      )
-    }) 
-  }, [filterQuery.searchQuery, posts])
+  const sortedSearchedPosts = usePosts(postsConfig)
 
   return (
     <div className='p-2'>

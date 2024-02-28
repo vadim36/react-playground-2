@@ -1,4 +1,4 @@
-import {FC, MouseEvent, useEffect} from 'react'
+import {FC, MouseEvent} from 'react'
 import { ButtonVariants } from '../utils/enums'
 
 interface ButtonProps {
