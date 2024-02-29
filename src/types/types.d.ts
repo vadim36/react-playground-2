@@ -22,3 +22,7 @@ interface usePostProps {
 } 
 
 type useSortedPostsType = (posts: IPost[], sortQuery: SortOptions) => IPost[]
+
+type useFetchingType = [Function, boolean, string?]
+
+type fetchFunctionType = () => void

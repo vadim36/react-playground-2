@@ -7,6 +7,7 @@ import { Modal } from './UI/Modal'
 import { Button } from './UI/Button'
 import { usePosts } from './hooks/usePosts'
 import PostService from './API/PostService'
+import useFetching from './hooks/useFetching'
 
 const App:FC = () => {
   const [posts, setPosts] = useState<IPost[]>([])
@@ -15,7 +16,14 @@ const App:FC = () => {
     searchQuery: ''
   })
   const [formModalVisible, setFormModalVisible] = useState<boolean>(false)
-  //const [isPostLoading, setIsPostLoading] = useState<boolean>(false)
+  const [fetchPosts, isLoading, fetchError] = useFetching<fetchFunctionType>(async () => {
+    const posts = await PostService.getAll()
+    return setPosts(posts)
+  })
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
 
   function createPost(newPost: IPost):void {
     return setPosts([...posts, newPost])
@@ -25,13 +33,6 @@ const App:FC = () => {
     return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
   }
 
-  async function fetchPosts():Promise<void> {
-    //setIsPostLoading(true)
-    const posts = await PostService.getAll()
-    setPosts(posts)
-    //return setIsPostLoading(false)
-  }
-
   const postsConfig:usePostProps = {
     posts,
     sortQuery: filterQuery.sortQuery,
@@ -39,10 +40,6 @@ const App:FC = () => {
   }
 
   const sortedSearchedPosts = usePosts(postsConfig)
-
-  useEffect(() => {
-    fetchPosts()
-  }, [])
 
   return (
     <div className='p-2'>
@@ -58,8 +55,16 @@ const App:FC = () => {
       
       <PostFilter filter={filterQuery} setFilter={setFilterQuery}/>
       
-      <PostList title={sortedSearchedPosts.length ? 'Посты' : 'Посты не найдены!'} 
-        list={sortedSearchedPosts} remove={removePost}/>
+      {fetchError &&
+        <h1>Возникла ошибка {fetchError}</h1>
+      }
+
+      {
+        isLoading
+          ? <h1>Загрузка постов...</h1>
+          : <PostList title={sortedSearchedPosts.length ? 'Посты' : 'Посты не найдены!'} 
+            list={sortedSearchedPosts} remove={removePost}/>
+      }
     </div>
   )
 }
