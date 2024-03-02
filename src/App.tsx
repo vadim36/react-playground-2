@@ -8,6 +8,8 @@ import { Button } from './UI/Button'
 import { usePosts } from './hooks/usePosts'
 import PostService from './API/PostService'
 import useFetching from './hooks/useFetching'
+import { getPagesCount } from './utils/getPagesCount'
+import { Pagination } from './components/Pagination'
 
 const App:FC = () => {
   const [posts, setPosts] = useState<IPost[]>([])
@@ -16,10 +18,17 @@ const App:FC = () => {
     searchQuery: ''
   })
   const [formModalVisible, setFormModalVisible] = useState<boolean>(false)
-  const [fetchPosts, isLoading, fetchError] = useFetching<fetchFunctionType>(async () => {
-    const response: IPostResponse = await PostService.getAll()
-    return setPosts(response.posts)
-  })
+  const [postsLimit, setPostsLimit] = useState<number>(10)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [pagesCount, setPagesCount] = useState<number>(0)
+  const [renderPosts, isLoading, fetchError] = useFetching<fetchFunctionType>(
+    async () => {
+      const response: IPostResponse = await PostService.getAll()
+      const postsCount: number = response.postsCount
+      setPosts(response.posts)
+      return setPagesCount(getPagesCount(postsCount, postsLimit))
+    }
+  )
   const postsConfig:usePostProps = {
     posts,
     sortQuery: filterQuery.sortQuery,
@@ -28,7 +37,7 @@ const App:FC = () => {
   const sortedSearchedPosts:IPost[] = usePosts(postsConfig)
 
   useEffect(() => {
-    fetchPosts()
+    renderPosts()
   }, [])
 
   function createPost(newPost: IPost):void {
@@ -37,6 +46,10 @@ const App:FC = () => {
 
   function removePost(deletingPost: IPost):void {
     return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
+  }
+
+  function changePage(pageNumber: number):void {
+    return setCurrentPage(pageNumber)
   }
 
   return (
@@ -63,6 +76,12 @@ const App:FC = () => {
           : <PostList title={sortedSearchedPosts.length ? 'Посты' : 'Посты не найдены!'} 
             list={sortedSearchedPosts} remove={removePost}/>
       }
+
+      <Pagination
+        pagesCount={pagesCount}
+        currentPage={currentPage}
+        changePage={changePage}  
+      />
     </div>
   )
 }

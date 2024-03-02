@@ -8,3 +8,9 @@ export enum SortOptions {
   title = 'title',
   body = 'body'
 }
+
+export enum Sizes {
+  large = 'lg',
+  medium = 'md',
+  small = 'sm'
+}

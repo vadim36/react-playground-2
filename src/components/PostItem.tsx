@@ -11,7 +11,7 @@ export const PostItem:FC<PostItemProps> = ((props) => {
   return (
     <li className="border-4 border-sky-500 w-4/5 p-2">
       <div>
-        <strong className="text-3xl font-mono">
+        <strong className="text-3xl font-mono capitalize">
           {props.postData.id}. {props.postData.title}
         </strong>
         <p className="text-lg">{props.postData.body}</p>

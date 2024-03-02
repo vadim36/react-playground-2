@@ -7,3 +7,7 @@
     @apply font-mono text-6xl text-center py-2;
   }
 }
+
+button[data-pagination-button][aria-current="true"] {
+  @apply bg-amber-400 hover:bg-amber-600;
+}
