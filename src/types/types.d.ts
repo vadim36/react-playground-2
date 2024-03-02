@@ -26,3 +26,9 @@ type useSortedPostsType = (posts: IPost[], sortQuery: SortOptions) => IPost[]
 type useFetchingType = [Function, boolean, string?]
 
 type fetchFunctionType = () => void
+
+interface IPostResponse {
+  posts: IPost[]
+}
+
+type PostServiceGetAllType = () => Promise<IPostResponse>

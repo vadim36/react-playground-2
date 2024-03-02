@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .heading {
+    @apply font-mono text-6xl text-center py-2;
+  }
+}

@@ -17,9 +17,15 @@ const App:FC = () => {
   })
   const [formModalVisible, setFormModalVisible] = useState<boolean>(false)
   const [fetchPosts, isLoading, fetchError] = useFetching<fetchFunctionType>(async () => {
-    const posts = await PostService.getAll()
-    return setPosts(posts)
+    const response: IPostResponse = await PostService.getAll()
+    return setPosts(response.posts)
   })
+  const postsConfig:usePostProps = {
+    posts,
+    sortQuery: filterQuery.sortQuery,
+    searchQuery: filterQuery.searchQuery
+  }
+  const sortedSearchedPosts:IPost[] = usePosts(postsConfig)
 
   useEffect(() => {
     fetchPosts()
@@ -32,14 +38,6 @@ const App:FC = () => {
   function removePost(deletingPost: IPost):void {
     return setPosts(posts.filter((post: IPost) => post.id !== deletingPost.id))
   }
-
-  const postsConfig:usePostProps = {
-    posts,
-    sortQuery: filterQuery.sortQuery,
-    searchQuery: filterQuery.searchQuery
-  }
-
-  const sortedSearchedPosts = usePosts(postsConfig)
 
   return (
     <div className='p-2'>
@@ -56,12 +54,12 @@ const App:FC = () => {
       <PostFilter filter={filterQuery} setFilter={setFilterQuery}/>
       
       {fetchError &&
-        <h1>Возникла ошибка {fetchError}</h1>
+        <h1 className="heading">Возникла ошибка {fetchError}</h1>
       }
 
       {
-        isLoading
-          ? <h1>Загрузка постов...</h1>
+        isLoading && !fetchError
+          ? <h1 className="heading">Загрузка постов...</h1>
           : <PostList title={sortedSearchedPosts.length ? 'Посты' : 'Посты не найдены!'} 
             list={sortedSearchedPosts} remove={removePost}/>
       }

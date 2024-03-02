@@ -7,6 +7,7 @@ export default function useFetching<T extends Function>(callback: T):useFetching
   async function fetching():Promise<void> {
     try {
       setIsLoading(true)
+      setError('')
       await callback()
     } catch (errorData: unknown) {
       const errorMessage: string = (errorData as Error)?.message ?? 'Unexpected error'

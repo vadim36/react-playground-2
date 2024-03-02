@@ -4,7 +4,6 @@ import { ButtonVariants } from '../utils/enums'
 
 interface PostItemProps {
   postData: IPost,
-  number: number,
   remove: (deletingPost: IPost) => void,
 }
 
@@ -13,7 +12,7 @@ export const PostItem:FC<PostItemProps> = ((props) => {
     <li className="border-4 border-sky-500 w-4/5 p-2">
       <div>
         <strong className="text-3xl font-mono">
-          {props.number}. {props.postData.title}
+          {props.postData.id}. {props.postData.title}
         </strong>
         <p className="text-lg">{props.postData.body}</p>
       </div>
