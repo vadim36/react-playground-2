@@ -21,9 +21,9 @@ const App:FC = () => {
   const [postsLimit, setPostsLimit] = useState<number>(10)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pagesCount, setPagesCount] = useState<number>(0)
-  const [renderPosts, isLoading, fetchError] = useFetching<fetchFunctionType>(
-    async () => {
-      const response: IPostResponse = await PostService.getAll()
+  const [renderPosts, isLoading, fetchError] = useFetching<number[], Promise<void>>(
+    async (limit, page) => {
+      const response: IPostResponse = await PostService.getAll(limit, page)
       const postsCount: number = response.postsCount
       setPosts(response.posts)
       return setPagesCount(getPagesCount(postsCount, postsLimit))
@@ -37,8 +37,8 @@ const App:FC = () => {
   const sortedSearchedPosts:IPost[] = usePosts(postsConfig)
 
   useEffect(() => {
-    renderPosts()
-  }, [])
+    renderPosts(postsLimit, currentPage)
+  }, [currentPage])
 
   function createPost(newPost: IPost):void {
     return setPosts([...posts, newPost])

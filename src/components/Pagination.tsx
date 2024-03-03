@@ -16,9 +16,8 @@ export const Pagination:FC<PaginationProps> = ({currentPage, pagesCount, changeP
     <ul className='flex justify-center gap-2 p-2'>
       {
         pages.map((pageNumber:number):ReactNode => {
-          return <li>
+          return <li key={pageNumber}>
             <Button
-              key={pageNumber}
               className='text-4xl'
               aria-current={pageNumber === currentPage}
               size={Sizes.large}
