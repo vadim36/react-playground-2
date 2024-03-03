@@ -1,5 +1,5 @@
 import {FC, ReactNode} from 'react'
-import { Button } from '../UI/Button'
+import { Button } from './Button'
 import { Sizes } from '../utils/enums'
 import usePagination from '../hooks/usePagination'
 
