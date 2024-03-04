@@ -1,6 +1,7 @@
 import {FC} from 'react'
 import { Button } from '../UI/Button'
 import { ButtonVariants } from '../utils/enums'
+import {Link} from 'react-router-dom'
 
 interface PostItemProps {
   postData: IPost,
@@ -17,9 +18,11 @@ export const PostItem:FC<PostItemProps> = ((props) => {
         <p className="text-lg">{props.postData.body}</p>
       </div>
       <div aria-controls="*" className='flex gap-1'>
-        <Button>
-          Прокомментировать
-        </Button>
+          <Link to={`/posts/${props.postData.id}`}>
+            <Button>
+              Открыть
+            </Button>
+          </Link>
         <Button variant={ButtonVariants.danger} onClick={():void => {
             return props.remove(props.postData)
           }}

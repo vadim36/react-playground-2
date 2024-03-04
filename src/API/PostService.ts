@@ -22,4 +22,13 @@ export default abstract class PostService {
       postsCount
     }
   }
+
+  public static getById: PostServiceGetByIdType = async (id) => {
+    return await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+      .then((response: Response):Promise<IPost> => response.json())
+      .then((response: IPost):IPost => {
+        const {userId, ...postData}:IPost = response
+        return postData
+      })
+  }
 }

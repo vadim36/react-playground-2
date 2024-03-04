@@ -24,4 +24,5 @@ interface IPostResponse {
   postsCount: number
 }
 type PostServiceGetAllType = (limit:number = 10, page:number = 1) => Promise<IPostResponse>
+type PostServiceGetByIdType = (id: number) => Promise<IPost> 
 type getPagesCountType = (postsCount:number, limit:number) => number

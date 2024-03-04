@@ -8,14 +8,18 @@ export const Navbar:FC = () => {
     <div className='bg-slate-700 sticky top-0 z-10'>
       <ul className='flex gap-2 p-2'>
         <li>
-          <Button size={Sizes.large}>
-            <Link to='/posts'>Посты</Link>
-          </Button>
+          <Link to='/posts'>
+            <Button size={Sizes.large}>
+              Посты
+            </Button>
+          </Link>
         </li>
         <li>
-          <Button size={Sizes.large}>
-            <Link to='/about'>О нас</Link>
-          </Button>
+          <Link to='/about'>
+            <Button size={Sizes.large}>
+              О нас
+            </Button>
+          </Link>
         </li>
       </ul>
     </div>
