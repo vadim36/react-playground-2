@@ -53,7 +53,7 @@ export const PostPage:FC = () => {
         ? <h2 className="heading text-xl">Загрузка комментариев...</h2>
         : <ul>
           {comments?.map((comment: IComment):ReactNode => {
-            return <Comment comment={comment}/>
+            return <Comment key={comment.id} comment={comment}/>
           })}
         </ul>
       }

@@ -1,17 +1,13 @@
-import {FC} from 'react'
-import Posts from '../pages/Posts'
-import { About } from '../pages/About'
-import { Error } from '../pages/Error'
+import React, {FC, ReactNode} from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { PostPage } from '../pages/PostPage'
+import { routes } from '../router'
 
 export const AppRouter:FC = () => {
   return (
     <Routes>
-      <Route path='/posts' element={<Posts/>}/>
-      <Route path='/about' element={<About/>}/>
-      <Route path='/posts/:id' element={<PostPage/>}/>
-      <Route path='*' element={<Error/>}/>
+      {routes.map(({path, element}: Route):ReactNode => {
+        return <Route path={path} element={React.createElement(element)}/>
+      })}
     </Routes>
   )
 }

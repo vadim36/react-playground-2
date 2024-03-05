@@ -34,3 +34,7 @@ type PostServiceGetAllType = (limit:number = 10, page:number = 1) => Promise<IPo
 type PostServiceGetByIdType = (id: number) => Promise<IPost> 
 type PostServiceGetPosts = (id: number) => Promise<IComment[]>
 type getPagesCountType = (postsCount:number, limit:number) => number
+interface Route {
+  path: Routes,
+  element: ReactNode
+}

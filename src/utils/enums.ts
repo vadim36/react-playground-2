@@ -14,3 +14,10 @@ export enum Sizes {
   medium = 'md',
   small = 'sm'
 }
+
+export enum Routes {
+  posts = '/posts',
+  about = '/about',
+  post = '/posts/:id',
+  any = '*'
+}
