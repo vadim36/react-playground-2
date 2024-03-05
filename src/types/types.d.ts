@@ -23,6 +23,14 @@ interface IPostResponse {
   posts: IPost[],
   postsCount: number
 }
+interface IComment {
+  postId?: number,
+  id: number,
+  name: string,
+  email: string,
+  body: string
+}
 type PostServiceGetAllType = (limit:number = 10, page:number = 1) => Promise<IPostResponse>
 type PostServiceGetByIdType = (id: number) => Promise<IPost> 
+type PostServiceGetPosts = (id: number) => Promise<IComment[]>
 type getPagesCountType = (postsCount:number, limit:number) => number

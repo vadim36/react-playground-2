@@ -31,4 +31,9 @@ export default abstract class PostService {
         return postData
       })
   }
+
+  public static getComments: PostServiceGetPosts = async (id) => {
+    return fetch(`https://jsonplaceholder.typicode.com/posts/${id}/comments`)
+      .then((response: Response):Promise<IComment[]> => response.json())
+  }
 }
