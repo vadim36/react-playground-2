@@ -1,13 +1,24 @@
-import React, {FC, ReactNode} from 'react'
+import React, {FC, ReactNode, useContext} from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { routes } from '../router'
+import { publicRoutes, privateRoutes } from '../router'
+import { AuthContext } from '../context'
 
 export const AppRouter:FC = () => {
+  const {isAuth} = useContext(AuthContext)
+  const routes = isAuth 
+    ? [...privateRoutes]
+    : [...publicRoutes]
+
   return (
     <Routes>
       {routes.map(({path, element}: Route):ReactNode => {
-        return <Route path={path} element={React.createElement(element)}/>
-      })}
+        return <Route 
+            key={path}
+            path={path} 
+            element={React.createElement(element)}
+          />
+        }
+      )}
     </Routes>
   )
 }

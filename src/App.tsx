@@ -1,14 +1,21 @@
-import {FC} from 'react'
+import {FC, useState} from 'react'
 import {BrowserRouter} from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import { AppRouter } from './components/AppRouter'
+import { AuthContext } from './context'
 
 const App:FC = () => {
+  const [isAuth, setIsAuth] = useState<boolean>(false)
+
   return (
-    <BrowserRouter>
-      <Navbar/>
-      <AppRouter/>
-    </BrowserRouter>
+    <AuthContext.Provider value={{
+      isAuth, setIsAuth
+    }}>
+      <BrowserRouter>
+        {isAuth && <Navbar/>}
+        <AppRouter/>
+      </BrowserRouter>
+    </AuthContext.Provider>
   )
 }
 

@@ -38,3 +38,7 @@ interface Route {
   path: Routes,
   element: ReactNode
 }
+interface TAuthContext {
+  isAuth: boolean,
+  setIsAuth?: Dispatch<SetStateAction<boolean>>
+}
