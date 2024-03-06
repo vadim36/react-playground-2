@@ -7,6 +7,11 @@ import { AuthContext } from '../context'
 export const Navbar:FC = () => {
   const {setIsAuth} = useContext(AuthContext)
   
+  function logout():void {
+    setIsAuth(false)
+    localStorage.setItem('auth', 'false')
+  }
+
   return (
     <header className='bg-slate-700 sticky top-0 z-10 flex items-center 
       justify-between px-2'
@@ -29,7 +34,7 @@ export const Navbar:FC = () => {
           </li>
         </ul>
       </nav>
-      <Button size={Sizes.large} onClick={():void => setIsAuth(false)}>Выйти</Button>
+      <Button size={Sizes.large} onClick={logout}>Выйти</Button>
     </header>
   )
 }

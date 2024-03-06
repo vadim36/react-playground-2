@@ -9,6 +9,7 @@ export const Login:FC = () => {
   function submitHandler(event: FormEvent<HTMLFormElement>):void {
     event.preventDefault()
     setIsAuth(true)
+    return localStorage.setItem('auth', 'true')
   }
 
   return (
